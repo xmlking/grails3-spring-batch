@@ -32,7 +32,7 @@ ext {
   gradleWrapperVersion = project.gradleWrapperVersion
 }
 
-version "2.0.0.BUILD-SNAPSHOT"
+version "3.0.0.BUILD-SNAPSHOT"
 group "org.grails.plugins"
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
@@ -56,13 +56,12 @@ dependencies {
   provided "org.springframework.boot:spring-boot-starter-actuator"
   provided "org.springframework.boot:spring-boot-autoconfigure"
   provided "org.springframework.boot:spring-boot-starter-tomcat"
-  provided "org.springframework.boot:spring-boot-starter-batch"
 
   provided "org.grails:grails-web-boot"
   provided "org.grails:grails-dependencies"
   provided 'javax.servlet:javax.servlet-api:3.1.0'
 
-
+  compile("org.springframework.boot:spring-boot-starter-batch:1.2.1.RELEASE")
   compile "org.springframework.batch:spring-batch-admin-manager:$springBatchAdminVersion", {
       exclude group:'org.slf4j', module:'slf4j-log4j12'
       exclude group:'org.slf4j', module:'log4j-over-slf4j'
