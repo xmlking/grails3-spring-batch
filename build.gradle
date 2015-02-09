@@ -8,7 +8,7 @@ buildscript {
     }
     dependencies {
         classpath "org.grails:grails-gradle-plugin:$grailsVersion"
-        classpath 'com.bertramlabs.plugins:asset-pipeline-gradle:2.0.20'
+        classpath 'com.bertramlabs.plugins:asset-pipeline-gradle:2.1.1'
     }
 }
 
@@ -52,6 +52,7 @@ dependencyManagement {
 }
 
 dependencies {
+  runtime 'com.bertramlabs.plugins:asset-pipeline-core:2.1.1' //Add this for some bug fixes
   provided 'org.springframework.boot:spring-boot-starter-logging'
   provided "org.springframework.boot:spring-boot-starter-actuator"
   provided "org.springframework.boot:spring-boot-autoconfigure"

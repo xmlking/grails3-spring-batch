@@ -49,8 +49,6 @@ class SpringBatchGrailsPlugin extends Plugin {
 
     Closure doWithSpring() { {->
 
-
-        }
         def application = grailsApplication
         def batchConfig = application.config.grails.springBatch
 
@@ -66,12 +64,11 @@ class SpringBatchGrailsPlugin extends Plugin {
         def loadRequired = loadRequiredSpringBatchBeans.clone()
         loadRequired.delegate = delegate
         loadRequired(dataSourceBean, tablePrefix, batchConfig.database, maxVarCharLength)
-
         def loadConfig = loadBatchConfig.clone()
         loadConfig.delegate = delegate
         xmlns batch: "http://www.springframework.org/schema/batch"
         loadConfig()
-    }
+    } }
 
     void doWithDynamicMethods() {
         // TODO Implement registering dynamic methods to classes (optional)
