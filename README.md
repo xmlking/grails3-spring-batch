@@ -13,7 +13,7 @@ To install the plugin, add the following entry to your `build.groovy` file in th
 compile "org.grails.plugins:spring-batch:3.0.0.BUILD-SNAPSHOT"
 ```
 Add `copyBatchConfig` task to your `build.groovy` file at the end:
-```
+```groovy
 task copyBatchConfig {
     copy {
         from("${project.projectDir}/grails-app/batch") {
