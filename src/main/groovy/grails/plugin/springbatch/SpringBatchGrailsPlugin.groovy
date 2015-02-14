@@ -74,8 +74,8 @@ class SpringBatchGrailsPlugin extends Plugin {
         // TODO Implement registering dynamic methods to classes (optional)
     }
 
-    void doWithApplicationContext(def applicationContext) {
-        def application = applicationContext.grailsApplication
+    void doWithApplicationContext() {
+        def application = grailsApplication
         def conf = application.config.grails.springBatch
         String dataSourceName = conf.dataSource
         def database = conf.database
