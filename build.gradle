@@ -1,6 +1,6 @@
 buildscript {
     ext {
-      grailsVersion = project.grailsVersion
+        grailsVersion = project.grailsVersion
     }
     repositories {
         mavenLocal()
@@ -8,40 +8,32 @@ buildscript {
     }
     dependencies {
         classpath "org.grails:grails-gradle-plugin:$grailsVersion"
-        classpath 'com.bertramlabs.plugins:asset-pipeline-gradle:2.1.1'
+        classpath "com.bertramlabs.plugins:asset-pipeline-gradle:2.1.1"
     }
 }
 
 plugins {
     id "io.spring.dependency-management" version "0.3.1.RELEASE"
+    id "com.jfrog.bintray" version "1.1"
 }
+
+version "3.0.0.BUILD-SNAPSHOT"
+group "org.grails.plugins"
 
 apply plugin: "spring-boot"
 apply plugin: "asset-pipeline"
 apply plugin: "org.grails.grails-plugin"
 apply plugin: "org.grails.grails-gsp"
-apply plugin:'maven-publish'
-apply plugin:'eclipse'
-apply plugin:'idea'
-// Used for publishing to central repository, remove if not needed
-apply from:'https://raw.githubusercontent.com/grails/grails-profile-repository/master/profiles/plugin/templates/grailsCentralPublishing.gradle'
-//apply from:'https://raw.githubusercontent.com/grails/grails-profile-repository/master/profiles/plugin/templates/bintrayPublishing.gradle'
-
-ext {
-  grailsVersion = project.grailsVersion
-  gradleWrapperVersion = project.gradleWrapperVersion
-}
-
-version "3.0.0.BUILD-SNAPSHOT"
-group "org.grails.plugins"
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
-
+apply plugin: "maven-publish"
+apply plugin: "eclipse"
+apply plugin: "idea"
+apply from: "https://raw.githubusercontent.com/grails/grails-profile-repository/master/profiles/plugin/templates/grailsCentralPublishing.gradle"
+apply from: "https://raw.githubusercontent.com/grails/grails-profile-repository/master/profiles/plugin/templates/bintrayPublishing.gradle"
 
 repositories {
-  mavenLocal()
-  mavenCentral()
-  maven { url "http://repo.grails.org/grails/core" }
+    mavenLocal()
+    mavenCentral()
+    maven { url "http://repo.grails.org/grails/core" }
 }
 
 dependencyManagement {
@@ -52,59 +44,46 @@ dependencyManagement {
 }
 
 dependencies {
-  runtime 'com.bertramlabs.plugins:asset-pipeline-core:2.1.1' //Add this for some bug fixes
-  provided 'org.springframework.boot:spring-boot-starter-logging'
-  provided "org.springframework.boot:spring-boot-starter-actuator"
-  provided "org.springframework.boot:spring-boot-autoconfigure"
-  provided "org.springframework.boot:spring-boot-starter-tomcat"
+    provided "javax.servlet:javax.servlet-api:3.1.0"
+    provided "org.grails:grails-dependencies"
+    provided "org.grails:grails-web-boot"
 
-  provided "org.grails:grails-web-boot"
-  provided "org.grails:grails-dependencies"
-  provided 'javax.servlet:javax.servlet-api:3.1.0'
-
-  compile("org.springframework.boot:spring-boot-starter-batch:1.2.1.RELEASE")
-  compile "org.springframework.batch:spring-batch-admin-manager:$springBatchAdminVersion", {
-      exclude group:'org.slf4j', module:'slf4j-log4j12'
-      exclude group:'org.slf4j', module:'log4j-over-slf4j'
-      exclude group:'org.slf4j', module:'jcl-over-slf4j'
-      exclude group:'org.slf4j', module:'slf4j-api'
-      exclude group:'log4', module:'log4j'
-      exclude module:'xstream'
-      exclude module:'jettison'
-      exclude module:'junit'
-      exclude module:'spring-core'
-      exclude module:'spring-web'
-      exclude module:'spring-webmvc'
-      exclude module:'spring-aop'
-      exclude module:'spring-jdbc'
-      exclude module:'spring-tx'
-      exclude module:'spring-beans'
-      exclude module:'spring-context'
-      exclude module:'spring-expression'
-      exclude module:'spring-context-support'
-      exclude module:'spring-batch-infrastructure'
-      exclude module:'spring-batch-core'
-      exclude group:'org.aspectj'
-      exclude group:'org.springframework.retry', module:'spring-retry'
-  }
-
-  testCompile "org.grails:grails-plugin-testing"
-
-  console "org.grails:grails-console"
-}
-
-eclipse {
-    classpath {
-        plusConfigurations += [configurations.provided]
+    compile("org.springframework.boot:spring-boot-starter-batch:1.2.1.RELEASE")
+    compile "org.springframework.batch:spring-batch-admin-manager:$springBatchAdminVersion", {
+        exclude group:'org.slf4j', module:'slf4j-log4j12'
+        exclude group:'org.slf4j', module:'log4j-over-slf4j'
+        exclude group:'org.slf4j', module:'jcl-over-slf4j'
+        exclude group:'org.slf4j', module:'slf4j-api'
+        exclude group:'log4', module:'log4j'
+        exclude module:'xstream'
+        exclude module:'jettison'
+        exclude module:'junit'
+        exclude module:'spring-core'
+        exclude module:'spring-web'
+        exclude module:'spring-webmvc'
+        exclude module:'spring-aop'
+        exclude module:'spring-jdbc'
+        exclude module:'spring-tx'
+        exclude module:'spring-beans'
+        exclude module:'spring-context'
+        exclude module:'spring-expression'
+        exclude module:'spring-context-support'
+        exclude module:'spring-batch-infrastructure'
+        exclude module:'spring-batch-core'
+        exclude group:'org.aspectj'
+        exclude group:'org.springframework.retry', module:'spring-retry'
     }
+
+    testCompile "org.grails:grails-plugin-testing"
+
+    console "org.grails:grails-console"
 }
 
-idea {
-    module {
-        scopes.PROVIDED.plus += [configurations.provided]
-    }
-}
+eclipse.classpath.plusConfigurations += [configurations.provided]
+idea.module.scopes.PROVIDED.plus += [configurations.provided]
+
+publishing.publications.maven.artifactId "spring-batch"
 
 task wrapper(type: Wrapper) {
-  gradleVersion = gradleWrapperVersion
+    gradleVersion = gradleWrapperVersion
 }
