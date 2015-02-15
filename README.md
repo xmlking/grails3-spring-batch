@@ -6,6 +6,9 @@ It's intent is to minimize/eliminate the need for verbose XML files to configure
 
 ### Note: Under development.
 
+## Sample App
+[grails3 spring batch sample app using this plugin](https://github.com/xmlking/grails3-spring-batch-sample) 
+
 ## Getting Started
 
 To install the plugin, add the following entry to your `build.groovy` file in the dependencies sections:
@@ -22,6 +25,20 @@ task copyBatchConfig {
         into "${buildDir}/resources/main/batch"
     }
 }
+```
+Add Spring Batch Config to  your `grails-app/conf/application.yml` file at the end:
+```yml
+---
+grails:
+    springBatch:
+        loadTables: true
+        database: "h2"
+
+environments:
+    production:
+        grails:
+            springBatch:
+                database = "mysql" #TODO set prod database type...
 ```
 
 Once the plugin is installed, you can define your Spring Batch job configuration in a Groovy script file in your application's `grails-app/batch` directory. 
@@ -50,7 +67,25 @@ beans {
 }
 ```
 
-`grails-app/controllers/foo/FooController.groovy`
+`src/main/groovy/springbatchsample/PrintMessageTasklet.groovy`
+```groovy
+import org.springframework.batch.core.step.tasklet.Tasklet
+import org.springframework.batch.repeat.RepeatStatus
+import org.springframework.batch.core.StepContribution
+import org.springframework.batch.core.scope.context.ChunkContext
+
+class PrintMessageTasklet implements Tasklet {
+
+    String mesg
+
+    RepeatStatus execute(StepContribution stepContribution, ChunkContext chunkContext) {
+        println mesg
+        return RepeatStatus.FINISHED
+    }
+}
+```
+
+`grails-app/controllers/springbatchsample/FooController.groovy`
 ```groovy
 import org.springframework.batch.core.JobParameters
 import org.springframework.batch.core.JobParametersBuilder
